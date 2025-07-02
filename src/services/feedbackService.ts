@@ -15,7 +15,7 @@ export const feedbackService = {
       throw error;
     }
 
-    return data || [];
+    return (data || []) as FeedbackEntry[];
   },
 
   // Insert new feedback entry
@@ -31,7 +31,7 @@ export const feedbackService = {
       throw error;
     }
 
-    return data;
+    return data as FeedbackEntry;
   },
 
   // Subscribe to real-time changes

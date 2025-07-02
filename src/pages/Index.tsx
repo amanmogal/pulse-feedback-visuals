@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import LiveFeedback from '../components/LiveFeedback';
 import SessionRatings from '../components/SessionRatings';
 import KeyTakeaways from '../components/KeyTakeaways';
 import { FeedbackEntry } from '../types/feedback';
 import { feedbackService } from '../services/feedbackService';
+import { supabase } from '../integrations/supabase/client';
 
 const Index = () => {
   const [feedbackData, setFeedbackData] = useState<FeedbackEntry[]>([]);
