@@ -44,7 +44,7 @@ const LiveFeedback: React.FC<LiveFeedbackProps> = ({ data }) => {
         {data.map((entry, index) => (
           <div 
             key={entry.id}
-            className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30 hover:border-slate-600/50 transition-all duration-200 animate-fadeIn"
+            className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30 hover:border-slate-600/50 transition-all duration-200 animate-fadein"
             style={{ animationDelay: `${index * 0.1}s` }}
           >
             <div className="flex items-start justify-between mb-2">
@@ -82,37 +82,39 @@ const LiveFeedback: React.FC<LiveFeedbackProps> = ({ data }) => {
         ))}
       </div>
       
-      <style jsx>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgb(51 65 85);
-          border-radius: 2px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: rgb(100 116 139);
-          border-radius: 2px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: rgb(148 163 184);
-        }
-        
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
+      <style>
+        {`
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
           }
-          to {
-            opacity: 1;
-            transform: translateY(0);
+          .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgb(51 65 85);
+            border-radius: 2px;
           }
-        }
-        
-        .animate-fadeIn {
-          animation: fadeIn 0.5s ease-out forwards;
-        }
-      `}</style>
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgb(100 116 139);
+            border-radius: 2px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgb(148 163 184);
+          }
+          
+          @keyframes fadein {
+            from {
+              opacity: 0;
+              transform: translateY(10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          
+          .animate-fadein {
+            animation: fadein 0.5s ease-out forwards;
+          }
+        `}
+      </style>
     </div>
   );
 };

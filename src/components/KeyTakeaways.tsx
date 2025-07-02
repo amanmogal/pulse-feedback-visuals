@@ -64,12 +64,12 @@ const KeyTakeaways: React.FC<KeyTakeawaysProps> = ({ data }) => {
             return (
               <span
                 key={`${wordData.word}-${index}`}
-                className="inline-block transition-all duration-300 hover:scale-110 cursor-pointer font-medium"
+                className="inline-block transition-all duration-300 hover:scale-110 cursor-pointer font-medium animate-fade-in-word"
                 style={{
                   fontSize: `${fontSize}px`,
                   color: wordData.color,
                   opacity: opacity,
-                  animation: `fadeInWord 0.6s ease-out ${index * 0.1}s both`
+                  animationDelay: `${index * 0.1}s`
                 }}
                 title={`Mentioned ${wordData.count} time${wordData.count > 1 ? 's' : ''}`}
               >
@@ -91,18 +91,24 @@ const KeyTakeaways: React.FC<KeyTakeawaysProps> = ({ data }) => {
         </div>
       )}
 
-      <style jsx>{`
-        @keyframes fadeInWord {
-          from {
-            opacity: 0;
-            transform: scale(0.8);
+      <style>
+        {`
+          @keyframes fade-in-word {
+            from {
+              opacity: 0;
+              transform: scale(0.8);
+            }
+            to {
+              opacity: 1;
+              transform: scale(1);
+            }
           }
-          to {
-            opacity: var(--target-opacity);
-            transform: scale(1);
+          
+          .animate-fade-in-word {
+            animation: fade-in-word 0.6s ease-out both;
           }
-        }
-      `}</style>
+        `}
+      </style>
     </div>
   );
 };
