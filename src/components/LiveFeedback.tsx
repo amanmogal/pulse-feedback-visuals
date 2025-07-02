@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { FeedbackEntry } from '../pages/Index';
+import { FeedbackEntry } from '../types/feedback';
 
 interface LiveFeedbackProps {
   data: FeedbackEntry[];
@@ -41,45 +40,59 @@ const LiveFeedback: React.FC<LiveFeedbackProps> = ({ data }) => {
       </div>
       
       <div className="space-y-3 max-h-96 overflow-y-auto custom-scrollbar">
-        {data.map((entry, index) => (
-          <div 
-            key={entry.id}
-            className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30 hover:border-slate-600/50 transition-all duration-200 animate-fadein"
-            style={{ animationDelay: `${index * 0.1}s` }}
-          >
-            <div className="flex items-start justify-between mb-2">
-              <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getTypeColor(entry.type)}`}>
-                {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)}
-              </span>
-              <span className="text-xs text-slate-400">
-                {formatTime(entry.timestamp)}
-              </span>
-            </div>
-            
-            <div className="text-sm text-slate-300">
-              {entry.type === 'rating' ? (
-                <div className="flex items-center space-x-2">
-                  <span>Rating:</span>
-                  <div className="flex space-x-1">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <div
-                        key={star}
-                        className={`w-4 h-4 rounded-sm ${
-                          star <= (entry.score || 0) 
-                            ? 'bg-yellow-400' 
-                            : 'bg-slate-600'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-yellow-400 font-medium">({entry.score}/5)</span>
-                </div>
-              ) : (
-                <p className="leading-relaxed">{entry.comment}</p>
-              )}
+        {data.length === 0 ? (
+          <div className="flex items-center justify-center min-h-[200px] text-slate-400">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-slate-700/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                </svg>
+              </div>
+              <p className="text-sm">No feedback entries yet...</p>
+              <p className="text-xs text-slate-500 mt-1">Real-time updates will appear here</p>
             </div>
           </div>
-        ))}
+        ) : (
+          data.map((entry, index) => (
+            <div 
+              key={entry.id}
+              className="bg-slate-900/50 rounded-lg p-4 border border-slate-700/30 hover:border-slate-600/50 transition-all duration-200 animate-fadein"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <div className="flex items-start justify-between mb-2">
+                <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getTypeColor(entry.type)}`}>
+                  {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)}
+                </span>
+                <span className="text-xs text-slate-400">
+                  {formatTime(entry.timestamp)}
+                </span>
+              </div>
+              
+              <div className="text-sm text-slate-300">
+                {entry.type === 'rating' ? (
+                  <div className="flex items-center space-x-2">
+                    <span>Rating:</span>
+                    <div className="flex space-x-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <div
+                          key={star}
+                          className={`w-4 h-4 rounded-sm ${
+                            star <= (entry.score || 0) 
+                              ? 'bg-yellow-400' 
+                              : 'bg-slate-600'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-yellow-400 font-medium">({entry.score}/5)</span>
+                  </div>
+                ) : (
+                  <p className="leading-relaxed">{entry.comment}</p>
+                )}
+              </div>
+            </div>
+          ))
+        )}
       </div>
       
       <style>

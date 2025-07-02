@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { FeedbackEntry } from '../pages/Index';
+import { FeedbackEntry } from '../types/feedback';
 
 interface KeyTakeawaysProps {
   data: FeedbackEntry[];

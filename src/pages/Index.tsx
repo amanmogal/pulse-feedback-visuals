@@ -3,100 +3,82 @@ import React, { useState, useEffect } from 'react';
 import LiveFeedback from '../components/LiveFeedback';
 import SessionRatings from '../components/SessionRatings';
 import KeyTakeaways from '../components/KeyTakeaways';
-
-// Mock data types
-export interface FeedbackEntry {
-  id: number;
-  type: 'takeaway' | 'rating' | 'question';
-  comment: string | null;
-  score: number | null;
-  timestamp: string;
-}
+import { FeedbackEntry } from '../types/feedback';
+import { feedbackService } from '../services/feedbackService';
 
 const Index = () => {
-  const [feedbackData, setFeedbackData] = useState<FeedbackEntry[]>([
-    {
-      id: 1,
-      type: 'takeaway',
-      comment: 'Great insights on user experience design patterns and modern accessibility standards',
-      score: null,
-      timestamp: new Date(Date.now() - 300000).toISOString()
-    },
-    {
-      id: 2,
-      type: 'rating',
-      comment: null,
-      score: 5,
-      timestamp: new Date(Date.now() - 240000).toISOString()
-    },
-    {
-      id: 3,
-      type: 'question',
-      comment: 'How do you handle state management in large React applications?',
-      score: null,
-      timestamp: new Date(Date.now() - 180000).toISOString()
-    },
-    {
-      id: 4,
-      type: 'rating',
-      comment: null,
-      score: 4,
-      timestamp: new Date(Date.now() - 120000).toISOString()
-    },
-    {
-      id: 5,
-      type: 'takeaway',
-      comment: 'Performance optimization techniques using React Query and caching strategies',
-      score: null,
-      timestamp: new Date(Date.now() - 60000).toISOString()
-    }
-  ]);
+  const [feedbackData, setFeedbackData] = useState<FeedbackEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Simulate real-time updates
   useEffect(() => {
-    const interval = setInterval(() => {
-      const mockEntries = [
-        {
-          type: 'takeaway' as const,
-          comment: 'Excellent presentation on modern web development best practices',
-          score: null
-        },
-        {
-          type: 'rating' as const,
-          comment: null,
-          score: Math.floor(Math.random() * 5) + 1
-        },
-        {
-          type: 'question' as const,
-          comment: 'What are your thoughts on the future of AI in web development?',
-          score: null
-        },
-        {
-          type: 'takeaway' as const,
-          comment: 'Valuable insights about component architecture and scalability',
-          score: null
-        },
-        {
-          type: 'rating' as const,
-          comment: null,
-          score: Math.floor(Math.random() * 5) + 1
-        }
-      ];
+    // Load initial data
+    const loadFeedback = async () => {
+      try {
+        const data = await feedbackService.getFeedback();
+        setFeedbackData(data);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to load feedback:', err);
+        setError('Failed to load feedback data');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      const randomEntry = mockEntries[Math.floor(Math.random() * mockEntries.length)];
-      const newEntry: FeedbackEntry = {
-        id: Date.now(),
-        type: randomEntry.type,
-        comment: randomEntry.comment,
-        score: randomEntry.score,
-        timestamp: new Date().toISOString()
-      };
+    loadFeedback();
 
-      setFeedbackData(prev => [newEntry, ...prev].slice(0, 20)); // Keep only latest 20 entries
-    }, 3000); // Add new entry every 3 seconds
+    // Set up real-time subscription
+    const channel = feedbackService.subscribeToFeedback((payload) => {
+      console.log('Real-time update:', payload);
+      
+      if (payload.eventType === 'INSERT') {
+        setFeedbackData(prev => [payload.new, ...prev]);
+      } else if (payload.eventType === 'UPDATE') {
+        setFeedbackData(prev => 
+          prev.map(item => 
+            item.id === payload.new.id ? payload.new : item
+          )
+        );
+      } else if (payload.eventType === 'DELETE') {
+        setFeedbackData(prev => 
+          prev.filter(item => item.id !== payload.old.id)
+        );
+      }
+    });
 
-    return () => clearInterval(interval);
+    // Cleanup subscription on unmount
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-400">Loading feedback data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <p className="text-red-400 mb-2">Error Loading Data</p>
+          <p className="text-slate-400 text-sm">{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">

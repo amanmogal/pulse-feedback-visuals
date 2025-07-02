@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Cell } from 'recharts';
-import { FeedbackEntry } from '../pages/Index';
+import { FeedbackEntry } from '../types/feedback';
 
 interface SessionRatingsProps {
   data: FeedbackEntry[];
