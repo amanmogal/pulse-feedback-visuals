@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import LiveFeedback from '../components/LiveFeedback';
 import SessionRatings from '../components/SessionRatings';
@@ -55,10 +56,10 @@ const Index = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-slate-400">Loading feedback data...</p>
+          <div className="w-16 h-16 border-4 border-orange-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600 font-inter">Loading feedback data...</p>
         </div>
       </div>
     );
@@ -66,35 +67,35 @@ const Index = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <p className="text-red-400 mb-2">Error Loading Data</p>
-          <p className="text-slate-400 text-sm">{error}</p>
+          <p className="text-red-600 mb-2 font-semibold">Error Loading Data</p>
+          <p className="text-gray-600 text-sm font-inter">{error}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-orange-50">
       {/* Header */}
-      <div className="border-b border-slate-700/50 bg-slate-900/80 backdrop-blur-sm">
+      <div className="border-b border-orange-100 bg-white/80 backdrop-blur-sm shadow-sm">
         <div className="container mx-auto px-6 py-6">
           <div className="flex items-center space-x-3">
-            <div className="w-3 h-3 bg-emerald-400 rounded-full animate-pulse"></div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent">
+            <div className="w-3 h-3 bg-orange-400 rounded-full animate-pulse"></div>
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 bg-clip-text text-transparent font-brockmann">
               Event Pulse
             </h1>
-            <span className="text-sm text-slate-400 bg-slate-800 px-3 py-1 rounded-full">
+            <span className="text-sm text-orange-600 bg-orange-100 px-3 py-1 rounded-full font-inter">
               Live Dashboard
             </span>
           </div>
-          <p className="text-slate-400 mt-2">Real-time feedback analytics and session insights</p>
+          <p className="text-gray-600 mt-2 font-inter">Real-time feedback analytics and session insights</p>
         </div>
       </div>
 

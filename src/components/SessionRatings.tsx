@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Cell } from 'recharts';
 import { FeedbackEntry } from '../types/feedback';
@@ -32,22 +33,22 @@ const SessionRatings: React.FC<SessionRatingsProps> = ({ data }) => {
     : 0;
 
   return (
-    <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6 h-full">
+    <div className="bg-white/70 backdrop-blur-sm rounded-3xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 p-6 h-full">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-white flex items-center">
+        <h2 className="text-xl font-bold text-gray-800 flex items-center font-brockmann">
           <div className="w-2 h-2 bg-blue-400 rounded-full mr-3 animate-pulse"></div>
           Session Ratings
         </h2>
         <div className="text-right">
-          <div className="text-2xl font-bold text-blue-400">
+          <div className="text-2xl font-bold text-orange-600 font-brockmann">
             {averageRating.toFixed(1)}
           </div>
-          <div className="text-xs text-slate-400">Average</div>
+          <div className="text-xs text-gray-500 font-inter">Average</div>
         </div>
       </div>
 
       <div className="mb-4">
-        <div className="flex justify-between text-sm text-slate-400 mb-2">
+        <div className="flex justify-between text-sm text-gray-600 mb-2 font-inter">
           <span>Distribution</span>
           <span>{totalRatings} total ratings</span>
         </div>
@@ -56,14 +57,14 @@ const SessionRatings: React.FC<SessionRatingsProps> = ({ data }) => {
       <div className="h-64 mb-4">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={ratingsData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
             <XAxis 
               dataKey="rating" 
-              stroke="#9ca3af"
+              stroke="#6b7280"
               fontSize={12}
             />
             <YAxis 
-              stroke="#9ca3af"
+              stroke="#6b7280"
               fontSize={12}
             />
             <Bar dataKey="count" radius={[4, 4, 0, 0]}>
@@ -85,12 +86,12 @@ const SessionRatings: React.FC<SessionRatingsProps> = ({ data }) => {
                   <div
                     key={i}
                     className={`w-3 h-3 rounded-sm ${
-                      i < parseInt(item.rating) ? 'bg-yellow-400' : 'bg-slate-600'
+                      i < parseInt(item.rating) ? 'bg-orange-400' : 'bg-gray-200'
                     }`}
                   />
                 ))}
               </div>
-              <span className="text-sm text-slate-300">{item.rating} star</span>
+              <span className="text-sm text-gray-700 font-inter">{item.rating} star</span>
             </div>
             <div className="flex items-center space-x-2">
               <div 
@@ -100,7 +101,7 @@ const SessionRatings: React.FC<SessionRatingsProps> = ({ data }) => {
                   width: `${totalRatings > 0 ? (item.count / Math.max(...ratingsData.map(d => d.count)) * 40) : 0}px`
                 }}
               />
-              <span className="text-sm text-slate-400 w-6 text-right">{item.count}</span>
+              <span className="text-sm text-gray-600 w-6 text-right font-inter">{item.count}</span>
             </div>
           </div>
         ))}

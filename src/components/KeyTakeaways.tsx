@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { FeedbackEntry } from '../types/feedback';
 
@@ -28,7 +29,7 @@ const KeyTakeaways: React.FC<KeyTakeawaysProps> = ({ data }) => {
       wordCount[word] = (wordCount[word] || 0) + 1;
     });
     
-    const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#84cc16'];
+    const colors = ['#f97316', '#10b981', '#3b82f6', '#ef4444', '#8b5cf6', '#06b6d4', '#84cc16'];
     
     return Object.entries(wordCount)
       .map(([word, count]) => ({
@@ -43,13 +44,13 @@ const KeyTakeaways: React.FC<KeyTakeawaysProps> = ({ data }) => {
   const maxCount = Math.max(...(wordCloud.map(w => w.count) || [1]));
 
   return (
-    <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700/50 p-6 h-full">
+    <div className="bg-white/70 backdrop-blur-sm rounded-3xl border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 p-6 h-full">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-white flex items-center">
-          <div className="w-2 h-2 bg-amber-400 rounded-full mr-3 animate-pulse"></div>
+        <h2 className="text-xl font-bold text-gray-800 flex items-center font-brockmann">
+          <div className="w-2 h-2 bg-orange-400 rounded-full mr-3 animate-pulse"></div>
           Key Takeaways
         </h2>
-        <span className="text-sm text-slate-400 bg-slate-700/50 px-3 py-1 rounded-full">
+        <span className="text-sm text-orange-600 bg-orange-100 px-3 py-1 rounded-full font-inter font-medium">
           {data.filter(entry => entry.type === 'takeaway').length} takeaways
         </span>
       </div>
@@ -63,7 +64,7 @@ const KeyTakeaways: React.FC<KeyTakeawaysProps> = ({ data }) => {
             return (
               <span
                 key={`${wordData.word}-${index}`}
-                className="inline-block transition-all duration-300 hover:scale-110 cursor-pointer font-medium animate-fade-in-word"
+                className="inline-block transition-all duration-300 hover:scale-110 cursor-pointer font-medium animate-fade-in-word font-inter"
                 style={{
                   fontSize: `${fontSize}px`,
                   color: wordData.color,
@@ -78,14 +79,14 @@ const KeyTakeaways: React.FC<KeyTakeawaysProps> = ({ data }) => {
           })}
         </div>
       ) : (
-        <div className="flex items-center justify-center min-h-[200px] text-slate-400">
+        <div className="flex items-center justify-center min-h-[200px] text-gray-500">
           <div className="text-center">
-            <div className="w-16 h-16 bg-slate-700/50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
               </svg>
             </div>
-            <p className="text-sm">Waiting for takeaway feedback...</p>
+            <p className="text-sm font-inter font-medium">Waiting for takeaway feedback...</p>
           </div>
         </div>
       )}
